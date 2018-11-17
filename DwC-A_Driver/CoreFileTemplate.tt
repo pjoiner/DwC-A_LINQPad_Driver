@@ -1,0 +1,30 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="DwC_A" #>
+<#@ import namespace="DwC_A.Terms" #>
+using System.Collections.Generic;
+using DwC_A;
+using DwC_A.Terms;
+
+namespace MyArchive
+{
+	public class <#=FileName#>Type
+    {
+        private readonly IRow row;
+
+        public <#=FileName#>Type(IRow row)
+        {
+            this.row = row;
+        }
+<#
+        foreach(var field in FileReader.FileMetaData.Fields)
+        {
+#>          public string <#=ModifyKeywords(field.Term)#> {get{ return row["<#=field.Term#>"]; }}<#
+            Write("\r\n");
+        }
+#>
+    }
+}
