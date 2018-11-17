@@ -12,17 +12,17 @@ namespace DwC_A_Driver
     using System.Linq;
     using System.Text;
     using System.Collections.Generic;
+    using DwC_A;
     using DwC_A.Terms;
-    using System.IO;
     using System;
     
     /// <summary>
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "C:\Users\pjoiner_2\workspace\gbif\DwC-A_Driver\DwC-A_Driver\MyArchiveDbTemplate.tt"
+    #line 1 "C:\Users\pjoiner_2\workspace\gbif\DwC-A_Driver\DwC-A_Driver\ArchiveFileTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "15.0.0.0")]
-    public partial class MyArchiveDbTemplate : MyArchiveDbTemplateBase
+    public partial class ArchiveFileTemplate : ArchiveFileTemplateBase
     {
 #line hidden
         /// <summary>
@@ -30,126 +30,56 @@ namespace DwC_A_Driver
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write(@"using System;
-using DwC_A;
-using System.Collections.Generic;
-using System.Linq;
-using System.Configuration;
+            this.Write("using System.Collections.Generic;\r\nusing DwC_A;\r\nusing DwC_A.Terms;\r\n\r\nnamespace " +
+                    "DwCArchive\r\n{\r\n\tpublic class ");
+            
+            #line 14 "C:\Users\pjoiner_2\workspace\gbif\DwC-A_Driver\DwC-A_Driver\ArchiveFileTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(FileName));
+            
+            #line default
+            #line hidden
+            this.Write("Type\r\n    {\r\n        private readonly IRow row;\r\n\r\n        public ");
+            
+            #line 18 "C:\Users\pjoiner_2\workspace\gbif\DwC-A_Driver\DwC-A_Driver\ArchiveFileTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(FileName));
+            
+            #line default
+            #line hidden
+            this.Write("Type(IRow row)\r\n        {\r\n            this.row = row;\r\n        }\r\n");
+            
+            #line 22 "C:\Users\pjoiner_2\workspace\gbif\DwC-A_Driver\DwC-A_Driver\ArchiveFileTemplate.tt"
 
-namespace MyArchive
-{
-    public class MyArchiveDb : IDisposable
-    {
-        private readonly ArchiveReader archive;
-
-        public MyArchiveDb(string fileName)
+        foreach(var field in FileReader.FileMetaData.Fields)
         {
-            this.archive = new ArchiveReader(fileName);
+
+            
+            #line default
+            #line hidden
+            this.Write("          public string ");
+            
+            #line 25 "C:\Users\pjoiner_2\workspace\gbif\DwC-A_Driver\DwC-A_Driver\ArchiveFileTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ModifyKeywords(field.Term)));
+            
+            #line default
+            #line hidden
+            this.Write(" {get{ return row[\"");
+            
+            #line 25 "C:\Users\pjoiner_2\workspace\gbif\DwC-A_Driver\DwC-A_Driver\ArchiveFileTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(field.Term));
+            
+            #line default
+            #line hidden
+            this.Write("\"]; }}");
+            
+            #line 25 "C:\Users\pjoiner_2\workspace\gbif\DwC-A_Driver\DwC-A_Driver\ArchiveFileTemplate.tt"
+
+            Write("\r\n");
         }
 
-        public IEnumerable<");
-            
-            #line 25 "C:\Users\pjoiner_2\workspace\gbif\DwC-A_Driver\DwC-A_Driver\MyArchiveDbTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(CoreFileName()));
             
             #line default
             #line hidden
-            this.Write("Type> ");
-            
-            #line 25 "C:\Users\pjoiner_2\workspace\gbif\DwC-A_Driver\DwC-A_Driver\MyArchiveDbTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(CoreFileName()));
-            
-            #line default
-            #line hidden
-            this.Write(" \r\n        {\r\n            get\r\n            {\r\n                return archive.Core" +
-                    "File.DataRows.Select( row => new ");
-            
-            #line 29 "C:\Users\pjoiner_2\workspace\gbif\DwC-A_Driver\DwC-A_Driver\MyArchiveDbTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(CoreFileName()));
-            
-            #line default
-            #line hidden
-            this.Write("Type(row) );\r\n            }\r\n        }\r\n\r\n");
-            
-            #line 33 "C:\Users\pjoiner_2\workspace\gbif\DwC-A_Driver\DwC-A_Driver\MyArchiveDbTemplate.tt"
-
-foreach(var extension in archive.Extensions)
-{
-    var rowType = extension.FileMetaData.FileName;
-    var rowTypeShortName = Path.GetFileNameWithoutExtension(rowType);
-        
-            
-            #line default
-            #line hidden
-            this.Write("public IEnumerable<");
-            
-            #line 38 "C:\Users\pjoiner_2\workspace\gbif\DwC-A_Driver\DwC-A_Driver\MyArchiveDbTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(rowTypeShortName));
-            
-            #line default
-            #line hidden
-            this.Write("Type> ");
-            
-            #line 38 "C:\Users\pjoiner_2\workspace\gbif\DwC-A_Driver\DwC-A_Driver\MyArchiveDbTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(rowTypeShortName));
-            
-            #line default
-            #line hidden
-            this.Write("\r\n        {\r\n            get\r\n            {\r\n                return archive\r\n    " +
-                    "                .Extensions\r\n                    .GetFileReaderByFileName(\"");
-            
-            #line 44 "C:\Users\pjoiner_2\workspace\gbif\DwC-A_Driver\DwC-A_Driver\MyArchiveDbTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(rowType));
-            
-            #line default
-            #line hidden
-            this.Write("\")\r\n                    .DataRows\r\n                    .Select( row => new ");
-            
-            #line 46 "C:\Users\pjoiner_2\workspace\gbif\DwC-A_Driver\DwC-A_Driver\MyArchiveDbTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(rowTypeShortName));
-            
-            #line default
-            #line hidden
-            this.Write("Type(row));\r\n            }\r\n        }\r\n        ");
-            
-            #line 49 "C:\Users\pjoiner_2\workspace\gbif\DwC-A_Driver\DwC-A_Driver\MyArchiveDbTemplate.tt"
-
-}
-
-            
-            #line default
-            #line hidden
-            this.Write(@"
-        #region IDisposable
-        private bool disposed = false;
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposed)
-            {
-                if (disposing)
-                {
-                    archive.Dispose();
-                }
-            }
-            disposed = true;
-        }
-
-        ~MyArchiveDb()
-        {
-            Dispose(false);
-        }
-        #endregion
-
-    }
-}
-
-");
+            this.Write("    }\r\n}\r\n");
             return this.GenerationEnvironment.ToString();
         }
     }
@@ -161,7 +91,7 @@ foreach(var extension in archive.Extensions)
     /// Base class for this transformation
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "15.0.0.0")]
-    public class MyArchiveDbTemplateBase
+    public class ArchiveFileTemplateBase
     {
         #region Fields
         private global::System.Text.StringBuilder generationEnvironmentField;

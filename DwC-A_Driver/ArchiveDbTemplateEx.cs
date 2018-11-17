@@ -1,14 +1,13 @@
 ﻿using DwC_A;
-using DwC_A.Terms;
 using System.IO;
 
 namespace DwC_A_Driver
 {
-    public partial class MyArchiveDbTemplate
+    public partial class ArchiveDbTemplate
     {
         public readonly ArchiveReader archive;
 
-        public MyArchiveDbTemplate(ArchiveReader archive)
+        public ArchiveDbTemplate(ArchiveReader archive)
         {
             this.archive = archive;
         }

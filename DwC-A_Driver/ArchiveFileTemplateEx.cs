@@ -4,7 +4,7 @@ using DwC_A.Terms;
 
 namespace DwC_A_Driver
 {
-    public partial class CoreFileTemplate
+    public partial class ArchiveFileTemplate
     {
         private readonly HashSet<string> keywords = new HashSet<string>()
         {
@@ -13,7 +13,7 @@ namespace DwC_A_Driver
 
         public readonly string FileName;
         public readonly IFileReader FileReader;
-        public CoreFileTemplate(string fileName, IFileReader fileReader)
+        public ArchiveFileTemplate(string fileName, IFileReader fileReader)
         {
             FileName = fileName;
             FileReader = fileReader;

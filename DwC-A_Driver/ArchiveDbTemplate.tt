@@ -11,13 +11,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Configuration;
 
-namespace MyArchive
+namespace DwCArchive
 {
-    public class MyArchiveDb : IDisposable
+    public class ArchiveDb : IDisposable
     {
         private readonly ArchiveReader archive;
 
-        public MyArchiveDb(string fileName)
+        public ArchiveDb(string fileName)
         {
             this.archive = new ArchiveReader(fileName);
         }
@@ -70,7 +70,7 @@ foreach(var extension in archive.Extensions)
             disposed = true;
         }
 
-        ~MyArchiveDb()
+        ~ArchiveDb()
         {
             Dispose(false);
         }

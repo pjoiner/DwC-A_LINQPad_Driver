@@ -11,10 +11,10 @@ namespace DwC_A_Driver
     class ArchiveDbAssemblyBuilder
     {
 
-        public void GenerateSchemaAssembly(string fileName, string assemblyName, string driverFolder)
+        public void GenerateArchiveDbAssembly(string fileName, string assemblyName, string driverFolder)
         {
             var sources = GenerateExtensionFiles(fileName);
-            sources.Add(GenerateMyArchiveDb(fileName));
+            sources.Add(GenerateArchiveDb(fileName));
             CompileUnit(sources.ToArray(), assemblyName, driverFolder);
         }
 
@@ -24,14 +24,14 @@ namespace DwC_A_Driver
             {
                 IList<string> sources = new List<string>();
 
-                var coreFileTemplate = new CoreFileTemplate(Path.GetFileNameWithoutExtension(archive.CoreFile.FileMetaData.FileName), archive.CoreFile);
+                var coreFileTemplate = new ArchiveFileTemplate(Path.GetFileNameWithoutExtension(archive.CoreFile.FileMetaData.FileName), archive.CoreFile);
                 var coreFileCs = coreFileTemplate.TransformText();
                 Debug.WriteLine(coreFileCs);
                 sources.Add(coreFileCs);
 
                 foreach (var fileReader in archive.Extensions)
                 {
-                    var extensionFileTemplate = new CoreFileTemplate(Path.GetFileNameWithoutExtension(fileReader.FileName), fileReader);
+                    var extensionFileTemplate = new ArchiveFileTemplate(Path.GetFileNameWithoutExtension(fileReader.FileName), fileReader);
                     var extensionFileCs = extensionFileTemplate.TransformText();
                     Debug.WriteLine(extensionFileCs);
                     sources.Add(extensionFileCs);
@@ -40,11 +40,11 @@ namespace DwC_A_Driver
             }
         }
 
-        private string GenerateMyArchiveDb(string fileName)
+        private string GenerateArchiveDb(string fileName)
         {
             using (var archive = new ArchiveReader(fileName))
             {
-                var myArchiveDbTemplate = new MyArchiveDbTemplate(archive);
+                var myArchiveDbTemplate = new ArchiveDbTemplate(archive);
                 var myArchiveDbCs = myArchiveDbTemplate.TransformText();
                 Debug.WriteLine(myArchiveDbCs);
                 return myArchiveDbCs;

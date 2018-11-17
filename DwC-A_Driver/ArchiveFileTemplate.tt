@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using DwC_A;
 using DwC_A.Terms;
 
-namespace MyArchive
+namespace DwCArchive
 {
 	public class <#=FileName#>Type
     {

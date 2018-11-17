@@ -49,21 +49,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CoreFileTemplate.cs">
+    <Compile Include="ArchiveFileTemplate.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>CoreFileTemplate.tt</DependentUpon>
+      <DependentUpon>ArchiveFileTemplate.tt</DependentUpon>
     </Compile>
-    <Compile Include="CoreFileTemplateEx.cs" />
+    <Compile Include="ArchiveFileTemplateEx.cs" />
     <Compile Include="DwC_Driver.cs" />
     <Compile Include="LinQPadSchemaGenerator.cs" />
     <Compile Include="ArchiveDbAssemblyBuilder.cs" />
-    <Compile Include="MyArchiveDbTemplate.cs">
+    <Compile Include="ArchiveDbTemplate.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>MyArchiveDbTemplate.tt</DependentUpon>
+      <DependentUpon>ArchiveDbTemplate.tt</DependentUpon>
     </Compile>
-    <Compile Include="MyArchiveDbTemplateEx.cs" />
+    <Compile Include="ArchiveDbTemplateEx.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -75,13 +75,13 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="CoreFileTemplate.tt">
+    <None Include="ArchiveFileTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>CoreFileTemplate.cs</LastGenOutput>
+      <LastGenOutput>ArchiveFileTemplate.cs</LastGenOutput>
     </None>
-    <None Include="MyArchiveDbTemplate.tt">
+    <None Include="ArchiveDbTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>MyArchiveDbTemplate.cs</LastGenOutput>
+      <LastGenOutput>ArchiveDbTemplate.cs</LastGenOutput>
     </None>
     <None Include="packages.config" />
   </ItemGroup>

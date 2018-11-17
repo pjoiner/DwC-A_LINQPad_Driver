@@ -34,11 +34,11 @@ namespace DwC_A_Driver
         public override List<ExplorerItem> GetSchemaAndBuildAssembly(IConnectionInfo cxInfo, AssemblyName assemblyToBuild, ref string nameSpace, ref string typeName)
         {
             string fileName = cxInfo.DriverData.Element("FileName")?.Value;
-            nameSpace = "MyArchive";
-            typeName = "MyArchiveDb";
+            nameSpace = "DwCArchive";
+            typeName = "ArchiveDb";
             var myArchiveDbSchemaBuilder = new ArchiveDbAssemblyBuilder();
             var driverFolder = GetDriverFolder();
-            myArchiveDbSchemaBuilder.GenerateSchemaAssembly(fileName, assemblyToBuild.CodeBase, driverFolder);
+            myArchiveDbSchemaBuilder.GenerateArchiveDbAssembly(fileName, assemblyToBuild.CodeBase, driverFolder);
             var linQPadSchemaGenerator = new LinQPadSchemaGenerator();
             return linQPadSchemaGenerator.GenerateSchema(fileName);
         }
