@@ -24,15 +24,14 @@ namespace DwC_A_Driver
             {
                 IList<string> sources = new List<string>();
 
-                var coreFileTemplate = new ArchiveFileTemplate(Path.GetFileNameWithoutExtension(archive.CoreFile.FileMetaData.FileName), archive.CoreFile);
-                var coreFileCs = coreFileTemplate.TransformText();
+                var archiveCodeDom = new ArchiveFileCodeDom();
+                var coreFileCs = archiveCodeDom.GenerateSource(archive.CoreFile.FileMetaData.FileName, archive.CoreFile.FileMetaData);
                 Debug.WriteLine(coreFileCs);
                 sources.Add(coreFileCs);
 
                 foreach (var fileReader in archive.Extensions)
                 {
-                    var extensionFileTemplate = new ArchiveFileTemplate(Path.GetFileNameWithoutExtension(fileReader.FileName), fileReader);
-                    var extensionFileCs = extensionFileTemplate.TransformText();
+                    var extensionFileCs = archiveCodeDom.GenerateSource(fileReader.FileMetaData.FileName, fileReader.FileMetaData);
                     Debug.WriteLine(extensionFileCs);
                     sources.Add(extensionFileCs);
                 }
@@ -44,10 +43,10 @@ namespace DwC_A_Driver
         {
             using (var archive = new ArchiveReader(fileName))
             {
-                var myArchiveDbTemplate = new ArchiveDbTemplate(archive);
-                var myArchiveDbCs = myArchiveDbTemplate.TransformText();
-                Debug.WriteLine(myArchiveDbCs);
-                return myArchiveDbCs;
+                var archiveDbCodeDom = new ArchiveDbCodeDom();
+                var archiveDbCs = archiveDbCodeDom.GenerateSource(archive);
+                Debug.WriteLine(archiveDbCs);
+                return archiveDbCs;
             }
         }
 
