@@ -2,10 +2,7 @@
 using DwC_A.Meta;
 using DwC_A.Terms;
 using System.CodeDom;
-using System.CodeDom.Compiler;
 using System.Collections.Generic;
-using System.IO;
-using System.Text;
 
 namespace DwC_A_Driver
 {
@@ -22,25 +19,7 @@ namespace DwC_A_Driver
             var classType = CreateClass(fileName, fileMetaData);
             DwCArchive.Types.Add(classType);
 
-            return GenerateSourceFromCodeDom(DwCArchive);
-        }
-
-        private string GenerateSourceFromCodeDom(CodeNamespace DwCArchive)
-        {
-            CodeCompileUnit compileUnit = new CodeCompileUnit();
-            compileUnit.Namespaces.Add(DwCArchive);
-            CodeDomProvider csc = CodeDomProvider.CreateProvider("CSharp");
-            CodeGeneratorOptions options = new CodeGeneratorOptions
-            {
-                BracingStyle = "C"
-            };
-            StringBuilder code = new StringBuilder();
-            using (StringWriter sourceWriter = new StringWriter(code))
-            {
-                csc.GenerateCodeFromCompileUnit(
-                    compileUnit, sourceWriter, options);
-            }
-            return code.ToString();
+            return CodeDomUtils.GenerateSourceFromCodeDom(DwCArchive);
         }
 
         private CodeNamespace CreateNamespace()
@@ -54,7 +33,7 @@ namespace DwC_A_Driver
 
         private CodeTypeDeclaration CreateClass(string fileName, IFileMetaData fileMetaData)
         {
-            var classType = new CodeTypeDeclaration(ExtractClassName(fileName))
+            var classType = new CodeTypeDeclaration(CodeDomUtils.ExtractClassName(fileName) + "Type")
             {
                 IsClass = true
             };
@@ -90,11 +69,6 @@ namespace DwC_A_Driver
             };
             fieldProperty.GetStatements.Add(new CodeSnippetExpression($"return row[\"{field.Term}\"]"));
             return fieldProperty;
-        }
-
-        private string ExtractClassName(string fileName)
-        {
-            return Path.GetFileNameWithoutExtension(fileName) + "Type";
         }
 
         private string ModifyKeywords(string name)

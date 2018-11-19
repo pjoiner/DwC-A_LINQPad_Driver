@@ -1,9 +1,6 @@
 ﻿using DwC_A;
 using System;
 using System.CodeDom;
-using System.CodeDom.Compiler;
-using System.IO;
-using System.Text;
 
 namespace DwC_A_Driver
 {
@@ -15,30 +12,7 @@ namespace DwC_A_Driver
             var classType = CreateClass(archiveReader);
             DwCArchive.Types.Add(classType);
 
-            return GenerateSourceFromCodeDom(DwCArchive);
-        }
-
-        private string GenerateSourceFromCodeDom(CodeNamespace DwCArchive)
-        {
-            CodeCompileUnit compileUnit = new CodeCompileUnit();
-            compileUnit.Namespaces.Add(DwCArchive);
-            CodeDomProvider csc = CodeDomProvider.CreateProvider("CSharp");
-            CodeGeneratorOptions options = new CodeGeneratorOptions
-            {
-                BracingStyle = "C"
-            };
-            StringBuilder code = new StringBuilder();
-            using (StringWriter sourceWriter = new StringWriter(code))
-            {
-                csc.GenerateCodeFromCompileUnit(
-                    compileUnit, sourceWriter, options);
-            }
-            return code.ToString();
-        }
-
-        private string ExtractClassName(string fileName)
-        {
-            return Path.GetFileNameWithoutExtension(fileName);
+            return CodeDomUtils.GenerateSourceFromCodeDom(DwCArchive);
         }
 
         private CodeNamespace CreateNamespace()
@@ -85,7 +59,7 @@ namespace DwC_A_Driver
 
         private CodeMemberProperty CreateCoreFileProperty(IFileReader file)
         {
-            var propertyName = ExtractClassName(file.FileName);
+            var propertyName = CodeDomUtils.ExtractClassName(file.FileName);
             var propertyTypeName = propertyName + "Type";
             var fieldProperty = new CodeMemberProperty()
             {
@@ -100,7 +74,7 @@ namespace DwC_A_Driver
 
         private CodeMemberProperty CreateExtensionFileProperty(IFileReader file)
         {
-            var propertyName = ExtractClassName(file.FileName);
+            var propertyName = CodeDomUtils.ExtractClassName(file.FileName);
             var propertyTypeName = propertyName + "Type";
             var fieldProperty = new CodeMemberProperty()
             {
@@ -112,7 +86,6 @@ namespace DwC_A_Driver
             fieldProperty.GetStatements.Add(new CodeSnippetExpression($"return archive.Extensions.GetFileReaderByFileName(\"{file.FileMetaData.FileName}\").DataRows.Select( row => new {propertyTypeName}(row) )"));
             return fieldProperty;
         }
-
 
         private CodeMemberMethod CreateDisposeMethod()
         {

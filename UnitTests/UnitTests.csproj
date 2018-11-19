@@ -75,6 +75,7 @@
   <ItemGroup>
     <Compile Include="ArchiveDbCodeDomTests.cs" />
     <Compile Include="ArchiveFileCodeDomTests.cs" />
+    <Compile Include="AssemblyBuilderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -91,6 +92,11 @@
       <Project>{d240fee9-2414-48b2-849e-2bd8ae8a37e1}</Project>
       <Name>DwC-A_Driver</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="resources\meta.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

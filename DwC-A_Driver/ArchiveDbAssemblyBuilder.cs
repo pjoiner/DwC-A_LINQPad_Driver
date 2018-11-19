@@ -3,22 +3,21 @@ using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Linq;
-using System.IO;
 using System.Diagnostics;
 
 namespace DwC_A_Driver
 {
-    class ArchiveDbAssemblyBuilder
+    public class ArchiveDbAssemblyBuilder
     {
 
         public void GenerateArchiveDbAssembly(string fileName, string assemblyName, string driverFolder)
         {
-            var sources = GenerateExtensionFiles(fileName);
+            var sources = GenerateSourceFiles(fileName);
             sources.Add(GenerateArchiveDb(fileName));
             CompileUnit(sources.ToArray(), assemblyName, driverFolder);
         }
 
-        private IList<string> GenerateExtensionFiles(string fileName)
+        private IList<string> GenerateSourceFiles(string fileName)
         {
             using (var archive = new ArchiveReader(fileName))
             {

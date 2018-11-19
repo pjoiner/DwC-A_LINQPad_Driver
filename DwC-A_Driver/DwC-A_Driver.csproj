@@ -61,6 +61,7 @@
   <ItemGroup>
     <Compile Include="ArchiveDbCodeDom.cs" />
     <Compile Include="ArchiveFileCodeDom.cs" />
+    <Compile Include="CodeDomUtils.cs" />
     <Compile Include="DwC_Driver.cs" />
     <Compile Include="LinQPadSchemaGenerator.cs" />
     <Compile Include="ArchiveDbAssemblyBuilder.cs" />
