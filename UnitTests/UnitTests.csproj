@@ -76,13 +76,12 @@
     <Compile Include="ArchiveDbCodeDomTests.cs" />
     <Compile Include="ArchiveFileCodeDomTests.cs" />
     <Compile Include="AssemblyBuilderTests.cs" />
+    <Compile Include="MetaDataCollection.cs" />
+    <Compile Include="MetaDataFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="resources\dwca-vascan-v37.5.zip">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\packages\xunit.analyzers.0.10.0\analyzers\dotnet\cs\xunit.analyzers.dll" />

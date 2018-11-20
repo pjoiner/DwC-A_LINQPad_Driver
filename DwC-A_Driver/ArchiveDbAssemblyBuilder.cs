@@ -1,52 +1,50 @@
-﻿using DwC_A;
-using System;
+﻿using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Linq;
 using System.Diagnostics;
+using DwC_A.Meta;
 
 namespace DwC_A_Driver
 {
-    public class ArchiveDbAssemblyBuilder
+    class ArchiveDbAssemblyBuilder
     {
 
-        public void GenerateArchiveDbAssembly(string fileName, string assemblyName, string driverFolder)
+        public void GenerateArchiveDbAssembly(IFileMetaData coreFileMetaData,
+            IEnumerable<IFileMetaData> extensionFileMetaData, 
+            string assemblyName, string driverFolder)
         {
-            var sources = GenerateSourceFiles(fileName);
-            sources.Add(GenerateArchiveDb(fileName));
+            var sources = GenerateSourceFiles(coreFileMetaData, extensionFileMetaData);
+            sources.Add(GenerateArchiveDb(coreFileMetaData, extensionFileMetaData));
             CompileUnit(sources.ToArray(), assemblyName, driverFolder);
         }
 
-        private IList<string> GenerateSourceFiles(string fileName)
+        private IList<string> GenerateSourceFiles(IFileMetaData coreFileMetaData,
+            IEnumerable<IFileMetaData> extensionFileMetaData)
         {
-            using (var archive = new ArchiveReader(fileName))
+            IList<string> sources = new List<string>();
+
+            var archiveCodeDom = new ArchiveFileCodeDom();
+            var coreFileCs = archiveCodeDom.GenerateSource(coreFileMetaData.FileName, coreFileMetaData);
+            Debug.WriteLine(coreFileCs);
+            sources.Add(coreFileCs);
+
+            foreach (var extension in extensionFileMetaData)
             {
-                IList<string> sources = new List<string>();
-
-                var archiveCodeDom = new ArchiveFileCodeDom();
-                var coreFileCs = archiveCodeDom.GenerateSource(archive.CoreFile.FileMetaData.FileName, archive.CoreFile.FileMetaData);
-                Debug.WriteLine(coreFileCs);
-                sources.Add(coreFileCs);
-
-                foreach (var fileReader in archive.Extensions)
-                {
-                    var extensionFileCs = archiveCodeDom.GenerateSource(fileReader.FileMetaData.FileName, fileReader.FileMetaData);
-                    Debug.WriteLine(extensionFileCs);
-                    sources.Add(extensionFileCs);
-                }
-                return sources;
+                var extensionFileCs = archiveCodeDom.GenerateSource(extension.FileName, extension);
+                Debug.WriteLine(extensionFileCs);
+                sources.Add(extensionFileCs);
             }
+            return sources;
         }
 
-        private string GenerateArchiveDb(string fileName)
+        private string GenerateArchiveDb(IFileMetaData coreFileMetaData,
+            IEnumerable<IFileMetaData> extensionFileMetaData)
         {
-            using (var archive = new ArchiveReader(fileName))
-            {
-                var archiveDbCodeDom = new ArchiveDbCodeDom();
-                var archiveDbCs = archiveDbCodeDom.GenerateSource(archive);
-                Debug.WriteLine(archiveDbCs);
-                return archiveDbCs;
-            }
+            var archiveDbCodeDom = new ArchiveDbCodeDom();
+            var archiveDbCs = archiveDbCodeDom.GenerateSource(coreFileMetaData, extensionFileMetaData);
+            Debug.WriteLine(archiveDbCs);
+            return archiveDbCs;
         }
 
         private void CompileUnit(string[] sources, string assemblyName, string driverFolder)

@@ -1,20 +1,29 @@
 ﻿using Xunit;
 using DwC_A_Driver;
 using System.IO;
+using System.Linq;
 
 namespace UnitTests
 {
+    [Collection("MetaData Collection")]
     public class AssemblyBuilderTests
     {
-        const string fileName = "./resources/dwca-vascan-v37.5.zip";
+        readonly MetaDataFixture metaData;
+
+        public AssemblyBuilderTests(MetaDataFixture fixture)
+        {
+            metaData = fixture;
+        }
 
         [Fact]
         public void ShouldBuildAssembly()
         {
-            File.Delete("test.dll");
             var archiveDbAssemblyBuilder = new ArchiveDbAssemblyBuilder();
-            archiveDbAssemblyBuilder.GenerateArchiveDbAssembly(fileName, "test.dll", ".");
+            archiveDbAssemblyBuilder.GenerateArchiveDbAssembly(metaData.coreFileMetaData, 
+                metaData.extensionFileMetaData, 
+                "test.dll", ".");
             Assert.True(File.Exists("test.dll"));
+            Directory.GetFiles(".", "test.*").ToList().ForEach(File.Delete);
         }
     }
 }

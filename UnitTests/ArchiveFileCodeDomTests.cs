@@ -1,33 +1,16 @@
-﻿using DwC_A.Meta;
-using DwC_A_Driver;
-using Moq;
-using System.Collections.Generic;
+﻿using DwC_A_Driver;
 using Xunit;
 
 namespace UnitTests
 {
+    [Collection("MetaData Collection")]
     public class ArchiveFileCodeDomTests
     {
-        Mock<IFileMetaData> mockFileMetaData = new Mock<IFileMetaData>();
-        Mock<IFieldMetaData> mockFieldMetaData = new Mock<IFieldMetaData>();
-        
-        public ArchiveFileCodeDomTests()
-        {
-            var id = new IdFieldType()
-            {
-                Index = 0,
-                IndexSpecified = true
-            };
-            IList<FieldType> fields = new List<FieldType>()
-            {
-                new FieldType(){ Index = 0, Term = "Term1"},
-                new FieldType(){ Index = 1, Term = "http://mydomain/Term2"}
-            };
-            mockFieldMetaData.Setup(n => n.GetEnumerator()).Returns(fields.GetEnumerator);
+        readonly MetaDataFixture metaData;
 
-            mockFileMetaData.Setup(n => n.FileName).Returns("taxon.txt");
-            mockFileMetaData.Setup(n => n.Id).Returns(id);
-            mockFileMetaData.Setup(n => n.Fields).Returns(mockFieldMetaData.Object);
+        public ArchiveFileCodeDomTests(MetaDataFixture fixture)
+        {
+            metaData = fixture;
         }
 
         [Fact]
@@ -35,7 +18,7 @@ namespace UnitTests
         {
             var archiveFileCodeDom = new ArchiveFileCodeDom();
             var fileName = "taxon.txt";
-            var code = archiveFileCodeDom.GenerateSource(fileName, mockFileMetaData.Object);
+            var code = archiveFileCodeDom.GenerateSource(fileName, metaData.coreFileMetaData);
             Assert.NotEmpty(code);
         }
     }

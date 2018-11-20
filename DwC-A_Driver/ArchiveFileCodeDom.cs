@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace DwC_A_Driver
 {
-    public class ArchiveFileCodeDom
+    class ArchiveFileCodeDom
     {
         private readonly HashSet<string> keywords = new HashSet<string>()
         {

@@ -1,7 +1,9 @@
-﻿using LINQPad.Extensibility.DataContext;
+﻿using DwC_A;
+using LINQPad.Extensibility.DataContext;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 using System.Xml.Linq;
@@ -36,11 +38,17 @@ namespace DwC_A_Driver
             string fileName = cxInfo.DriverData.Element("FileName")?.Value;
             nameSpace = "DwCArchive";
             typeName = "ArchiveDb";
-            var myArchiveDbSchemaBuilder = new ArchiveDbAssemblyBuilder();
             var driverFolder = GetDriverFolder();
-            myArchiveDbSchemaBuilder.GenerateArchiveDbAssembly(fileName, assemblyToBuild.CodeBase, driverFolder);
-            var linQPadSchemaGenerator = new LinQPadSchemaGenerator();
-            return linQPadSchemaGenerator.GenerateSchema(fileName);
+            using (var archive = new ArchiveReader(fileName))
+            {
+                var coreFileMetaData = archive.CoreFile.FileMetaData;
+                var extensionFileMetaData = archive.Extensions.Select(n => n.FileMetaData);
+                var archiveDbSchemaBuilder = new ArchiveDbAssemblyBuilder();
+                archiveDbSchemaBuilder.GenerateArchiveDbAssembly(coreFileMetaData, 
+                    extensionFileMetaData, assemblyToBuild.CodeBase, driverFolder);
+                var linQPadSchemaGenerator = new LinQPadSchemaGenerator();
+                return linQPadSchemaGenerator.GenerateSchema(fileName, coreFileMetaData, extensionFileMetaData);
+            }
         }
 
         public override ParameterDescriptor[] GetContextConstructorParameters(IConnectionInfo cxInfo)

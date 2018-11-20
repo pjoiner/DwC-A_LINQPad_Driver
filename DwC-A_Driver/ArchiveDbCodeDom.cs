@@ -1,15 +1,18 @@
 ﻿using DwC_A;
+using DwC_A.Meta;
 using System;
 using System.CodeDom;
+using System.Collections.Generic;
 
 namespace DwC_A_Driver
 {
-    public class ArchiveDbCodeDom
+    class ArchiveDbCodeDom
     {
-        public string GenerateSource(ArchiveReader archiveReader)
+        public string GenerateSource(IFileMetaData coreFileMetaData,
+            IEnumerable<IFileMetaData> extensionFileMetaData)
         {
             var DwCArchive = CreateNamespace();
-            var classType = CreateClass(archiveReader);
+            var classType = CreateClass(coreFileMetaData, extensionFileMetaData);
             DwCArchive.Types.Add(classType);
 
             return CodeDomUtils.GenerateSourceFromCodeDom(DwCArchive);
@@ -26,7 +29,8 @@ namespace DwC_A_Driver
             return DwCArchive;
         }
 
-        private CodeTypeDeclaration CreateClass(ArchiveReader archiveReader)
+        private CodeTypeDeclaration CreateClass(IFileMetaData coreFileMetaData, 
+            IEnumerable<IFileMetaData> extensionFileMetaData)
         {
             var classType = new CodeTypeDeclaration("ArchiveDb")
             {
@@ -48,8 +52,8 @@ namespace DwC_A_Driver
             };
             classType.Members.Add(archive);
 
-            classType.Members.Add(CreateCoreFileProperty(archiveReader.CoreFile));
-            foreach (var extension in archiveReader.Extensions)
+            classType.Members.Add(CreateCoreFileProperty(coreFileMetaData));
+            foreach (var extension in extensionFileMetaData)
             {
                 classType.Members.Add(CreateExtensionFileProperty(extension));
             }
@@ -57,9 +61,9 @@ namespace DwC_A_Driver
             return classType;
         }
 
-        private CodeMemberProperty CreateCoreFileProperty(IFileReader file)
+        private CodeMemberProperty CreateCoreFileProperty(IFileMetaData fileMetaData)
         {
-            var propertyName = CodeDomUtils.ExtractClassName(file.FileName);
+            var propertyName = CodeDomUtils.ExtractClassName(fileMetaData.FileName);
             var propertyTypeName = propertyName + "Type";
             var fieldProperty = new CodeMemberProperty()
             {
@@ -72,9 +76,9 @@ namespace DwC_A_Driver
             return fieldProperty;
         }
 
-        private CodeMemberProperty CreateExtensionFileProperty(IFileReader file)
+        private CodeMemberProperty CreateExtensionFileProperty(IFileMetaData fileMetaData)
         {
-            var propertyName = CodeDomUtils.ExtractClassName(file.FileName);
+            var propertyName = CodeDomUtils.ExtractClassName(fileMetaData.FileName);
             var propertyTypeName = propertyName + "Type";
             var fieldProperty = new CodeMemberProperty()
             {
@@ -83,7 +87,7 @@ namespace DwC_A_Driver
                 Name = propertyName,
                 HasGet = true
             };
-            fieldProperty.GetStatements.Add(new CodeSnippetExpression($"return archive.Extensions.GetFileReaderByFileName(\"{file.FileMetaData.FileName}\").DataRows.Select( row => new {propertyTypeName}(row) )"));
+            fieldProperty.GetStatements.Add(new CodeSnippetExpression($"return archive.Extensions.GetFileReaderByFileName(\"{fileMetaData.FileName}\").DataRows.Select( row => new {propertyTypeName}(row) )"));
             return fieldProperty;
         }
 
