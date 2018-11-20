@@ -19,19 +19,20 @@ namespace DwC_A_Driver
                 Children = new List<ExplorerItem>()
             };
 
-            explorerItem.Children.Add(GetFileReaderItem(coreFileMetaData));
+            explorerItem.Children.Add(GetFileReaderItem(coreFileMetaData, true));
             foreach(var extension in extensionFileMetaData)
             {
-                explorerItem.Children.Add(GetFileReaderItem(extension));
+                explorerItem.Children.Add(GetFileReaderItem(extension, false));
             }
             explorerItems.Add(explorerItem);
             return explorerItems;
         }
 
-        private ExplorerItem GetFileReaderItem(IFileMetaData fileMetaData)
+        private ExplorerItem GetFileReaderItem(IFileMetaData fileMetaData, bool isCoreFile)
         {
+            var explorerIcon = isCoreFile ? ExplorerIcon.View : ExplorerIcon.Table;
             var explorerItem = new ExplorerItem(Path.GetFileNameWithoutExtension(fileMetaData.FileName),
-                ExplorerItemKind.QueryableObject, ExplorerIcon.Table)
+                ExplorerItemKind.QueryableObject, explorerIcon)
             {
                 Children = new List<ExplorerItem>(),
                 IsEnumerable = true
