@@ -33,4 +33,4 @@ steps:
 - task: PublishPipelineArtifact@0
   inputs:
     artifactName: 'DwC-A_Driver'
-    targetPath: 'DwC-A_Driver/bin/Release/DwC-A_Driver.lpx'
+    targetPath: 'DwC-A_Driver/bin/Release'
