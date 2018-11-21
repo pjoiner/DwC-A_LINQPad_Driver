@@ -30,7 +30,7 @@ steps:
     configuration: '$(buildConfiguration)'
 
 # Publish Package as Build Artifact
-- task: PublishBuildArtifacts@1
+- task: PublishPipelineArtifact@0
   inputs:
-    pathtoPublish: '$(Build.ArtifactStagingDirectory)' 
-    artifactName: 'NuGet package' 
+    artifactName: 'DwC-A_Driver'
+    targetPath: 'DwC-A_Driver/bin/Release/DwC-A_Driver.lpx'
