@@ -6,7 +6,7 @@ using System.IO;
 
 namespace DwC_A_Driver
 {
-    class LinQPadSchemaGenerator
+    class LINQPadSchemaGenerator
     {
         public List<ExplorerItem> GenerateSchema(string archiveFileName, 
             IFileMetaData coreFileMetaData, 
@@ -39,11 +39,21 @@ namespace DwC_A_Driver
             };
             foreach(var field in fileMetaData.Fields)
             {
+                var icon = GetFieldIcon(fileMetaData, field);
                 var fieldItem = new ExplorerItem(Terms.ShortName(field.Term),
-                    ExplorerItemKind.Property, ExplorerIcon.Column);
+                    ExplorerItemKind.Property, icon);
                 explorerItem.Children.Add(fieldItem);
             }
             return explorerItem;
+        }
+
+        private ExplorerIcon GetFieldIcon(IFileMetaData fileMetaData, FieldType field)
+        {
+            if (fileMetaData.Id.IndexSpecified && fileMetaData.Id.Index == field.Index)
+            {
+                return ExplorerIcon.Key;
+            }
+            return ExplorerIcon.Column;
         }
     }
 }

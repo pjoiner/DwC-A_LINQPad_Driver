@@ -41,6 +41,12 @@
     <Reference Include="DwC-A_dotnet, Version=0.0.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\DwC-A_dotnet.0.2.0-Pre\lib\netstandard2.0\DwC-A_dotnet.dll</HintPath>
     </Reference>
+    <Reference Include="LINQPad, Version=1.0.0.0, Culture=neutral, PublicKeyToken=21353812cd2a2db5, processorArchitecture=MSIL">
+      <HintPath>..\packages\LINQPad.5.26.1\lib\net46\LINQPad.exe</HintPath>
+    </Reference>
+    <Reference Include="lprun, Version=1.0.0.0, Culture=neutral, PublicKeyToken=21353812cd2a2db5, processorArchitecture=MSIL">
+      <HintPath>..\packages\LINQPad.5.26.1\lib\net46\lprun.exe</HintPath>
+    </Reference>
     <Reference Include="Moq, Version=4.10.0.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <HintPath>..\packages\Moq.4.10.0\lib\net45\Moq.dll</HintPath>
     </Reference>
@@ -76,6 +82,7 @@
     <Compile Include="ArchiveDbCodeDomTests.cs" />
     <Compile Include="ArchiveFileCodeDomTests.cs" />
     <Compile Include="AssemblyBuilderTests.cs" />
+    <Compile Include="LINQPadSchemaGeneratorTests.cs" />
     <Compile Include="MetaDataCollection.cs" />
     <Compile Include="MetaDataFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

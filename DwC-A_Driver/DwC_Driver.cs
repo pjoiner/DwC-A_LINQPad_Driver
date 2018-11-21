@@ -46,7 +46,7 @@ namespace DwC_A_Driver
                 var archiveDbSchemaBuilder = new ArchiveDbAssemblyBuilder();
                 archiveDbSchemaBuilder.GenerateArchiveDbAssembly(coreFileMetaData, 
                     extensionFileMetaData, assemblyToBuild.CodeBase, driverFolder);
-                var linQPadSchemaGenerator = new LinQPadSchemaGenerator();
+                var linQPadSchemaGenerator = new LINQPadSchemaGenerator();
                 return linQPadSchemaGenerator.GenerateSchema(fileName, coreFileMetaData, extensionFileMetaData);
             }
         }

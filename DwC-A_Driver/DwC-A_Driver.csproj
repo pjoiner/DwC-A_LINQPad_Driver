@@ -38,8 +38,11 @@
     <Reference Include="DwC-A_dotnet, Version=0.0.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\DwC-A_dotnet.0.2.0-Pre\lib\netstandard2.0\DwC-A_dotnet.dll</HintPath>
     </Reference>
-    <Reference Include="LINQPad">
-      <HintPath>..\..\..\..\..\..\Program Files\LINQPad5\LINQPad.exe</HintPath>
+    <Reference Include="LINQPad, Version=1.0.0.0, Culture=neutral, PublicKeyToken=21353812cd2a2db5, processorArchitecture=MSIL">
+      <HintPath>..\packages\LINQPad.5.26.1\lib\net46\LINQPad.exe</HintPath>
+    </Reference>
+    <Reference Include="lprun, Version=1.0.0.0, Culture=neutral, PublicKeyToken=21353812cd2a2db5, processorArchitecture=MSIL">
+      <HintPath>..\packages\LINQPad.5.26.1\lib\net46\lprun.exe</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -63,7 +66,7 @@
     <Compile Include="ArchiveFileCodeDom.cs" />
     <Compile Include="CodeDomUtils.cs" />
     <Compile Include="DwC_Driver.cs" />
-    <Compile Include="LinQPadSchemaGenerator.cs" />
+    <Compile Include="LINQPadSchemaGenerator.cs" />
     <Compile Include="ArchiveDbAssemblyBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
