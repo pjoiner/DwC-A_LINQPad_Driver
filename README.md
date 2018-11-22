@@ -5,3 +5,5 @@ A LINQPad Driver for Darwin Core Archive Files.
 # Install
 
 To obtain LINQPad go to (https://www.linqpad.net/).
+
+[![GitHub (pre-)release](https://img.shields.io/github/release-pre/qubyte/rubidium.svg)](https://GitHub.com/pjoiner/DwC-A_LINQPad_Driver/releases/latest) Download the driver for manual installation into LINQPad.
