@@ -26,13 +26,13 @@ namespace DwC_A_Driver
 
             var archiveCodeDom = new ArchiveFileCodeDom();
             var coreFileCs = archiveCodeDom.GenerateSource(coreFileMetaData.FileName, coreFileMetaData);
-            Debug.WriteLine(coreFileCs);
+            Log(coreFileCs);
             sources.Add(coreFileCs);
 
             foreach (var extension in extensionFileMetaData)
             {
                 var extensionFileCs = archiveCodeDom.GenerateSource(extension.FileName, extension);
-                Debug.WriteLine(extensionFileCs);
+                Log(extensionFileCs);
                 sources.Add(extensionFileCs);
             }
             return sources;
@@ -43,7 +43,7 @@ namespace DwC_A_Driver
         {
             var archiveDbCodeDom = new ArchiveDbCodeDom();
             var archiveDbCs = archiveDbCodeDom.GenerateSource(coreFileMetaData, extensionFileMetaData);
-            Debug.WriteLine(archiveDbCs);
+            Log(archiveDbCs);
             return archiveDbCs;
         }
 
@@ -72,5 +72,17 @@ namespace DwC_A_Driver
             }
         }
 
+        private void Log(string message)
+        {
+            const string DWC_DEBUG = "DWC_DEBUG";
+            if (string.IsNullOrEmpty(Environment.GetEnvironmentVariable(DWC_DEBUG)))
+            {
+                Debug.WriteLine(message);
+            }
+            else
+            {
+                Console.WriteLine(message);
+            }
+        }
     }
 }
