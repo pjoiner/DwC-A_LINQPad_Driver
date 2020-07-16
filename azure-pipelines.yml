@@ -42,3 +42,4 @@ steps:
     artifactName: 'DwC-A_Driver'
     pathToPublish: '$(Build.SourcesDirectory)/DwC-A_Driver/bin/Release/DwC-A_Driver.$(AssemblyVersion).nupkg'
 
+- 
