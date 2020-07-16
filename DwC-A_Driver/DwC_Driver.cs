@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Windows.Forms;
 using System.Xml.Linq;
 
 namespace DwC_A_Driver
@@ -22,12 +21,14 @@ namespace DwC_A_Driver
             return $"DwC-A({fileName})";
         }
 
-        public override bool ShowConnectionDialog(IConnectionInfo cxInfo, bool isNewConnection)
+        public override bool ShowConnectionDialog(IConnectionInfo cxInfo, ConnectionDialogOptions dialogOptions)
         {
-            var openFileDialog = new OpenFileDialog();
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            var folderBrowserDialog = new FolderWindow();
+            var result = folderBrowserDialog.ShowDialog();
+            if (result.HasValue && result == true)
             {
-                cxInfo.DriverData.Add(new XElement("FileName", openFileDialog.FileName));
+                var path = (FolderViewModel)folderBrowserDialog.DataContext;
+                cxInfo.DriverData.Add(new XElement("FileName", path.Path));
                 return true;
             }
             return false;
@@ -42,7 +43,9 @@ namespace DwC_A_Driver
             using (var archive = new ArchiveReader(fileName))
             {
                 var coreFileMetaData = archive.CoreFile.FileMetaData;
-                var extensionFileMetaData = archive.Extensions.Select(n => n.FileMetaData);
+                var extensionFileMetaData = archive.Extensions
+                    .GetFileReaders()
+                    .Select(n => n.FileMetaData);
                 var archiveDbSchemaBuilder = new ArchiveDbAssemblyBuilder();
                 archiveDbSchemaBuilder.GenerateArchiveDbAssembly(coreFileMetaData, 
                     extensionFileMetaData, assemblyToBuild.CodeBase, driverFolder);

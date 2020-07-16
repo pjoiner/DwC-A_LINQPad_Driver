@@ -1,9 +1,11 @@
 ﻿using System;
-using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Linq;
 using System.Diagnostics;
 using DwC_A.Meta;
+using System.IO;
+using DwC_A;
+using LINQPad.Extensibility.DataContext;
 
 namespace DwC_A_Driver
 {
@@ -16,7 +18,7 @@ namespace DwC_A_Driver
         {
             var sources = GenerateSourceFiles(coreFileMetaData, extensionFileMetaData);
             sources.Add(GenerateArchiveDb(coreFileMetaData, extensionFileMetaData));
-            CompileUnit(sources.ToArray(), assemblyName, driverFolder);
+            RoslynCompile(sources.ToArray(), assemblyName, driverFolder);
         }
 
         private IList<string> GenerateSourceFiles(IFileMetaData coreFileMetaData,
@@ -47,28 +49,24 @@ namespace DwC_A_Driver
             return archiveDbCs;
         }
 
-        private void CompileUnit(string[] sources, string assemblyName, string driverFolder)
+        private void RoslynCompile(string[] sources, string assemblyName, string driverFolder)
         {
+            var referencedAssemblies = DataContextDriver.GetCoreFxReferenceAssemblies().Concat(new[]
+            {
+                typeof(ArchiveReader).Assembly.Location,
+            }).ToArray();
 
-            CodeDomProvider csc = CodeDomProvider.CreateProvider("CSharp");
-            var parameters = new CompilerParameters(new[]
-                {
-                    "mscorlib.dll",
-                    "System.Core.dll",
-                    "netstandard.dll",
-                    "System.dll",
-                    "System.configuration.dll",
-                    "DwC-A_dotnet.dll"
-                }, assemblyName, true)
+            var result = DataContextDriver.CompileSource(new CompilationInput()
             {
-                GenerateExecutable = false,
-                CoreAssemblyFileName = "netstandard.dll",
-                CompilerOptions = $"/lib:\"{driverFolder}\""
-            };
-            CompilerResults results = csc.CompileAssemblyFromSource(parameters, sources);
-            if(results.Errors.HasErrors)
+                FilePathsToReference = referencedAssemblies,
+                SourceCode = sources,
+                OutputPath = Path.Combine(driverFolder, assemblyName)
+            });
+
+            if(!result.Successful)
             {
-                throw new Exception(string.Join(";", results.Errors.Cast<CompilerError>().ToList()));
+                var message = string.Join(' ', result.Errors);
+                throw new Exception($"Compilation failed! {message.ToString()}");
             }
         }
 

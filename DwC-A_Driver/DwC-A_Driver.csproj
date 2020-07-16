@@ -1,110 +1,48 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <PropertyGroup>
-    <AssemblyVersion Condition=" '$(AssemblyVersion)' == '' ">1.0.0.1</AssemblyVersion>
-    <Version>$(AssemblyVersion)</Version>
-    <AssemblyFileVersion>$(AssemblyVersion)</AssemblyFileVersion>
-  </PropertyGroup>
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D240FEE9-2414-48B2-849E-2BD8AE8A37E1}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DwC_A_Driver</RootNamespace>
-    <AssemblyName>DwC-A_Driver</AssemblyName>
-    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
-    <TargetFrameworkProfile />
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
-      <HintPath>..\packages\Castle.Core.4.3.1\lib\net45\Castle.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="DwC-A_dotnet, Version=0.0.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\DwC-A_dotnet.0.2.0\lib\netstandard2.0\DwC-A_dotnet.dll</HintPath>
-    </Reference>
-    <Reference Include="LINQPad, Version=1.0.0.0, Culture=neutral, PublicKeyToken=21353812cd2a2db5, processorArchitecture=MSIL">
-      <HintPath>..\packages\LINQPad.5.26.1\lib\net46\LINQPad.exe</HintPath>
-    </Reference>
-    <Reference Include="lprun, Version=1.0.0.0, Culture=neutral, PublicKeyToken=21353812cd2a2db5, processorArchitecture=MSIL">
-      <HintPath>..\packages\LINQPad.5.26.1\lib\net46\lprun.exe</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.1\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
-    </Reference>
-    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+	
+	<PropertyGroup>
+		<TargetFrameworks>netcoreapp3.0</TargetFrameworks>
+		<UseWpf>true</UseWpf>
+    <UseWindowsForms>true</UseWindowsForms>
+		<AssemblyName>Dwc-A_Driver</AssemblyName>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PackageTags>linqpad-driver</PackageTags>
+		<RootNamespace>DwC_A_Driver</RootNamespace>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <Copyright>Copyright © Paul Joiner 2020</Copyright>
+    <Authors>Paul Joiner</Authors>
+    <Company />
+    <PackageProjectUrl>https://github.com/pjoiner/DwC-A_LINQPad_Driver</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/pjoiner/DwC-A_LINQPad_Driver</RepositoryUrl>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+    <FileVersion>2.0.0.0</FileVersion>
+    <Version>2.0.0</Version>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0'">
+		<DefineConstants>NETCORE</DefineConstants>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="LINQPad.Reference" Version="1.1.0" />
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.6.0" />
+		<PackageReference Include="NETStandard.Library" Version="2.0.3" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="ConnectionDialog.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+	</ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0'">
+    <PackageReference Include="DwC-A_dotnet">
+      <Version>0.3.5</Version>
+    </PackageReference>
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="ArchiveDbCodeDom.cs" />
-    <Compile Include="ArchiveFileCodeDom.cs" />
-    <Compile Include="CodeDomUtils.cs" />
-    <Compile Include="DwC_Driver.cs" />
-    <Compile Include="LINQPadSchemaGenerator.cs" />
-    <Compile Include="ArchiveDbAssemblyBuilder.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Header.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>powershell Compress-Archive -Path '$(TargetDir)DwC-A_Driver.*', '$(TargetDir)DwC-A_dotnet.*','$(TargetDir)Header.xml' -DestinationPath '$(TargetDir)DwC-A_Driver.zip' -Force
-copy /y $(TargetDir)DwC-A_Driver.zip $(TargetDir)DwC-A_Driver.lpx</PostBuildEvent>
-  </PropertyGroup>
-  <Target Name="BeforeBuild">
-    <ItemGroup>
-      <VersionInfo Include="[assembly: System.Reflection.AssemblyVersion(&quot;$(AssemblyVersion)&quot;)] // Generated by build" />
-      <VersionInfo Include="[assembly: System.Reflection.AssemblyFileVersion(&quot;$(AssemblyVersion)&quot;)] // Generated by build" />
-      <VersionInfo Include="[assembly: System.Reflection.AssemblyInformationalVersion(&quot;$(AssemblyVersion)&quot;)] // Generated by build" />
-    </ItemGroup>
-    <MakeDir Directories="$(IntermediateOutputPath)" />
-    <WriteLinesToFile File="$(IntermediateOutputPath)VersionInfo.cs" Overwrite="True" Lines="@(VersionInfo)" />
-    <ItemGroup>
-      <Compile Include="$(IntermediateOutputPath)VersionInfo.cs" />
-    </ItemGroup>
+
+  <Target Name="PostBuild1" AfterTargets="PostBuildEvent" Condition="'$(TargetFramework)' == 'netcoreapp3.0'">
+		<Exec Command="xcopy /i/y/s &quot;$(TargetDir)*.*&quot; &quot;%25LocalAppData%25\\LINQPad\\Drivers\\DataContext\\NetCore\\$(TargetName)&quot;" />
   </Target>
+
 </Project>
