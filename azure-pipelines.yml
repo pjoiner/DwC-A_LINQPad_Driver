@@ -40,5 +40,5 @@ steps:
 - task: PublishBuildArtifacts@1
   inputs:
     artifactName: 'DwC-A_Driver'
-    pathToPublish: 'DwC-A_Driver/bin/Release/*.nupkg'
+    pathToPublish: '${{Build.SourcesDirectory}}/DwC-A_Driver/bin/Release/*.nupkg'
 
