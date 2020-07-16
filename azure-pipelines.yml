@@ -39,4 +39,5 @@ steps:
 - task: PublishBuildArtifacts@1
   inputs:
     artifactName: 'DwC-A_Driver'
-    pathToPublish: 'DwC-A_Driver\bin\Debug\Dwc-A_Driver.2.0.0.nupkg'
+    pathToPublish: 'DwC-A_Driver\bin\Debug\*.nupkg'
+
