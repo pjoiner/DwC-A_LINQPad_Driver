@@ -29,6 +29,7 @@ steps:
   inputs:
     command: 'build'
     projects: '${{variables.solution}}'
+    arguments: '-c ${{variables.buildConfiguration}}'
 
 - task: DotNetCoreCLI@2
   inputs:
