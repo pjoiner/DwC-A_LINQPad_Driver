@@ -30,7 +30,6 @@ steps:
     command: 'build'
     projects: '${{variables.solution}}'
 
-- 
 - task: DotNetCoreCLI@2
   inputs:
     command: 'test'
