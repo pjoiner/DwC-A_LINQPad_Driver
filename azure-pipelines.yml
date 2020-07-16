@@ -45,6 +45,6 @@ steps:
 - task: DotNetCoreCLI@2
   inputs:
     command: 'push'
-    packagesToPush: '$(Build.ArtifactStagingDirectory)/DwC-A_Driver.$(AssemblyVersion).nupkg'
+    packagesToPush: '$(Build.SourcesDirectory)/DwC-A_Driver/bin/Release/DwC-A_Driver.$(AssemblyVersion).nupkg'
     nuGetFeedType: 'external'
     publishFeedCredentials: 'DwC-A_Driver_Nuget_Service'
