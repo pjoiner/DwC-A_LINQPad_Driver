@@ -24,8 +24,7 @@ steps:
     command: 'restore'
     projects: '${{variables.solution}}'
     feedsToUse: 'select'
-
-- 
+ 
 - task: DotNetCoreCLI@2
   inputs:
     command: 'build'
