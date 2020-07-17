@@ -4,9 +4,9 @@
 		<TargetFrameworks>netcoreapp3.0</TargetFrameworks>
 		<UseWpf>true</UseWpf>
     <UseWindowsForms>true</UseWindowsForms>
-		<AssemblyName>Dwc-A_Driver</AssemblyName>
+		<AssemblyName>DwC-A_LinQPad_Driver</AssemblyName>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<PackageTags>linqpad-driver</PackageTags>
+		<PackageTags>linqpaddriver</PackageTags>
 		<RootNamespace>DwC_A_Driver</RootNamespace>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <Copyright>Copyright © Paul Joiner 2020</Copyright>
@@ -17,6 +17,8 @@
     <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <FileVersion>2.0.0.0</FileVersion>
     <Version>2.0.0</Version>
+    <PackageId>DwC-A_LinQPad_Driver</PackageId>
+    <Description>Darwin Core Archive Driver for LinQPad</Description>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0'">
