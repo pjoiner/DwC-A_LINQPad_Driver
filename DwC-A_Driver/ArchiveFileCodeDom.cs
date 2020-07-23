@@ -1,17 +1,17 @@
 ﻿using DwC_A;
 using DwC_A.Meta;
-using DwC_A.Terms;
 using System.CodeDom;
-using System.Collections.Generic;
 
 namespace DwC_A_Driver
 {
     class ArchiveFileCodeDom
     {
-        private readonly HashSet<string> keywords = new HashSet<string>()
+        private readonly bool capitalize;
+
+        public ArchiveFileCodeDom(bool capitalize = false)
         {
-            "class", "abstract"
-        };
+            this.capitalize = capitalize;
+        }
 
         public string GenerateSource(string fileName, IFileMetaData fileMetaData)
         {
@@ -33,7 +33,7 @@ namespace DwC_A_Driver
 
         private CodeTypeDeclaration CreateClass(string fileName, IFileMetaData fileMetaData)
         {
-            var classType = new CodeTypeDeclaration(CodeDomUtils.ExtractClassName(fileName) + "Type")
+            var classType = new CodeTypeDeclaration(CodeDomUtils.ExtractClassName(fileName, capitalize) + "Type")
             {
                 IsClass = true
             };
@@ -64,21 +64,11 @@ namespace DwC_A_Driver
             {
                 Type = new CodeTypeReference(typeof(string)),
                 Attributes = MemberAttributes.Public | MemberAttributes.Final,
-                Name = ModifyKeywords(field.Term),
+                Name = CodeDomUtils.ModifyKeywords(field.Term, capitalize),
                 HasGet = true
             };
             fieldProperty.GetStatements.Add(new CodeSnippetExpression($"return row[\"{field.Term}\"]"));
             return fieldProperty;
-        }
-
-        private string ModifyKeywords(string name)
-        {
-            var propertyName = Terms.ShortName(name);
-            if (keywords.Contains(propertyName))
-            {
-                return $"@{propertyName}";
-            }
-            return propertyName;
         }
 
     }

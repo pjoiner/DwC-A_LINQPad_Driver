@@ -8,6 +8,13 @@ namespace DwC_A_Driver
 {
     class ArchiveDbCodeDom
     {
+        private readonly bool capitalize;
+
+        public ArchiveDbCodeDom(bool capitalize = false)
+        {
+            this.capitalize = capitalize;
+        }
+
         public string GenerateSource(IFileMetaData coreFileMetaData,
             IEnumerable<IFileMetaData> extensionFileMetaData)
         {
@@ -63,7 +70,7 @@ namespace DwC_A_Driver
 
         private CodeMemberProperty CreateCoreFileProperty(IFileMetaData fileMetaData)
         {
-            var propertyName = CodeDomUtils.ExtractClassName(fileMetaData.FileName);
+            var propertyName = CodeDomUtils.ExtractClassName(fileMetaData.FileName, capitalize);
             var propertyTypeName = propertyName + "Type";
             var fieldProperty = new CodeMemberProperty()
             {
@@ -78,7 +85,7 @@ namespace DwC_A_Driver
 
         private CodeMemberProperty CreateExtensionFileProperty(IFileMetaData fileMetaData)
         {
-            var propertyName = CodeDomUtils.ExtractClassName(fileMetaData.FileName);
+            var propertyName = CodeDomUtils.ExtractClassName(fileMetaData.FileName, capitalize);
             var propertyTypeName = propertyName + "Type";
             var fieldProperty = new CodeMemberProperty()
             {

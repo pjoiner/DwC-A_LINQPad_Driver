@@ -1,4 +1,5 @@
-﻿using System.CodeDom;
+﻿using DwC_A.Terms;
+using System.CodeDom;
 using System.CodeDom.Compiler;
 using System.IO;
 using System.Text;
@@ -25,9 +26,25 @@ namespace DwC_A_Driver
             return code.ToString();
         }
 
-        public static string ExtractClassName(string fileName)
+        public static string ExtractClassName(string fileName, bool capitalize = false)
         {
-            return Path.GetFileNameWithoutExtension(fileName);
+            var className = Path.GetFileNameWithoutExtension(fileName);
+            return ModifyKeywords(className, capitalize);
+        }
+
+        public static string ModifyKeywords(string name, bool capitalize = false)
+        {
+            CodeDomProvider provider = CodeDomProvider.CreateProvider("C#");
+            var propertyName = Terms.ShortName(name);
+            if (capitalize)
+            {
+                return char.ToUpper(propertyName[0]) + propertyName.Substring(1);
+            }
+            if (!provider.IsValidIdentifier(propertyName))
+            {
+                return $"@{propertyName}";
+            }
+            return propertyName;
         }
 
     }

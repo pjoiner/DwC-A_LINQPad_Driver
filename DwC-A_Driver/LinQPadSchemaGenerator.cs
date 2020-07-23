@@ -1,13 +1,18 @@
 ﻿using DwC_A.Meta;
-using DwC_A.Terms;
 using LINQPad.Extensibility.DataContext;
 using System.Collections.Generic;
-using System.IO;
 
 namespace DwC_A_Driver
 {
     class LINQPadSchemaGenerator
     {
+        private readonly bool capitalize;
+
+        public LINQPadSchemaGenerator(bool capitalize = false)
+        {
+            this.capitalize = capitalize;
+        }
+
         public List<ExplorerItem> GenerateSchema(string archiveFileName, 
             IFileMetaData coreFileMetaData, 
             IEnumerable<IFileMetaData> extensionFileMetaData)
@@ -31,7 +36,7 @@ namespace DwC_A_Driver
         private ExplorerItem GetFileReaderItem(IFileMetaData fileMetaData, bool isCoreFile)
         {
             var explorerIcon = isCoreFile ? ExplorerIcon.View : ExplorerIcon.Table;
-            var explorerItem = new ExplorerItem(Path.GetFileNameWithoutExtension(fileMetaData.FileName),
+            var explorerItem = new ExplorerItem(CodeDomUtils.ExtractClassName(fileMetaData.FileName, capitalize),
                 ExplorerItemKind.QueryableObject, explorerIcon)
             {
                 Children = new List<ExplorerItem>(),
@@ -40,7 +45,7 @@ namespace DwC_A_Driver
             foreach(var field in fileMetaData.Fields)
             {
                 var icon = GetFieldIcon(fileMetaData, field);
-                var fieldItem = new ExplorerItem(Terms.ShortName(field.Term),
+                var fieldItem = new ExplorerItem(CodeDomUtils.ModifyKeywords(field.Term, capitalize),
                     ExplorerItemKind.Property, icon);
                 explorerItem.Children.Add(fieldItem);
             }

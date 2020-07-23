@@ -14,11 +14,12 @@
     <Company />
     <PackageProjectUrl>https://github.com/pjoiner/DwC-A_LINQPad_Driver</PackageProjectUrl>
     <RepositoryUrl>https://github.com/pjoiner/DwC-A_LINQPad_Driver</RepositoryUrl>
-    <AssemblyVersion>2.0.0.0</AssemblyVersion>
-    <FileVersion>2.0.0.0</FileVersion>
-    <Version>2.0.0</Version>
+    <AssemblyVersion>2.0.1.0</AssemblyVersion>
+    <FileVersion>2.0.1.0</FileVersion>
+    <Version>2.0.1</Version>
     <PackageId>DwC-A_LinQPad_Driver</PackageId>
     <Description>Darwin Core Archive Driver for LinQPad</Description>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0'">

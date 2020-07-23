@@ -53,6 +53,19 @@ namespace DwC_A_Driver
             }
         }
 
+        public bool Capitalize
+        {
+            get
+            {
+                return folderParams.Capitalize;
+            }
+            set
+            {
+                folderParams.Capitalize = value;
+                OnPropertyChanged("Capitalize");
+            }
+        }
+
         public string ButtonText
         {
             get
