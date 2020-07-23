@@ -29,6 +29,7 @@ namespace DwC_A_Driver
             {
                 var path = (FolderViewModel)folderBrowserDialog.DataContext;
                 cxInfo.DriverData.Add(new XElement("FileName", path.Path));
+                cxInfo.DriverData.Add(new XElement("Capitalize", path.Capitalize));
                 return true;
             }
             return false;
@@ -37,6 +38,10 @@ namespace DwC_A_Driver
         public override List<ExplorerItem> GetSchemaAndBuildAssembly(IConnectionInfo cxInfo, AssemblyName assemblyToBuild, ref string nameSpace, ref string typeName)
         {
             string fileName = cxInfo.DriverData.Element("FileName")?.Value;
+            if(!Boolean.TryParse(cxInfo.DriverData.Element("Capitalize").Value, out bool capitalize))
+            {
+                capitalize = false;
+            }
             nameSpace = "DwCArchive";
             typeName = "ArchiveDb";
             var driverFolder = GetDriverFolder();
@@ -46,10 +51,10 @@ namespace DwC_A_Driver
                 var extensionFileMetaData = archive.Extensions
                     .GetFileReaders()
                     .Select(n => n.FileMetaData);
-                var archiveDbSchemaBuilder = new ArchiveDbAssemblyBuilder();
+                var archiveDbSchemaBuilder = new ArchiveDbAssemblyBuilder(capitalize);
                 archiveDbSchemaBuilder.GenerateArchiveDbAssembly(coreFileMetaData, 
                     extensionFileMetaData, assemblyToBuild.CodeBase, driverFolder);
-                var linQPadSchemaGenerator = new LINQPadSchemaGenerator();
+                var linQPadSchemaGenerator = new LINQPadSchemaGenerator(capitalize);
                 return linQPadSchemaGenerator.GenerateSchema(fileName, coreFileMetaData, extensionFileMetaData);
             }
         }

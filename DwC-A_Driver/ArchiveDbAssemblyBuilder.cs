@@ -11,6 +11,12 @@ namespace DwC_A_Driver
 {
     class ArchiveDbAssemblyBuilder
     {
+        private readonly bool capitalize;
+
+        public ArchiveDbAssemblyBuilder(bool capitalize = false)
+        {
+            this.capitalize = capitalize;
+        }
 
         public void GenerateArchiveDbAssembly(IFileMetaData coreFileMetaData,
             IEnumerable<IFileMetaData> extensionFileMetaData, 
@@ -26,7 +32,7 @@ namespace DwC_A_Driver
         {
             IList<string> sources = new List<string>();
 
-            var archiveCodeDom = new ArchiveFileCodeDom();
+            var archiveCodeDom = new ArchiveFileCodeDom(capitalize);
             var coreFileCs = archiveCodeDom.GenerateSource(coreFileMetaData.FileName, coreFileMetaData);
             Log(coreFileCs);
             sources.Add(coreFileCs);
@@ -43,7 +49,7 @@ namespace DwC_A_Driver
         private string GenerateArchiveDb(IFileMetaData coreFileMetaData,
             IEnumerable<IFileMetaData> extensionFileMetaData)
         {
-            var archiveDbCodeDom = new ArchiveDbCodeDom();
+            var archiveDbCodeDom = new ArchiveDbCodeDom(capitalize);
             var archiveDbCs = archiveDbCodeDom.GenerateSource(coreFileMetaData, extensionFileMetaData);
             Log(archiveDbCs);
             return archiveDbCs;
