@@ -6,16 +6,23 @@ using DwC_A.Meta;
 using System.IO;
 using DwC_A;
 using LINQPad.Extensibility.DataContext;
+using DwC_A.Config;
 
 namespace DwC_A_Driver
 {
     class ArchiveDbAssemblyBuilder
     {
         private readonly bool capitalize;
+        private readonly FileReaderConfiguration fileReaderConfig;
+        private readonly RowFactoryConfiguration rowFactoryConfig;
 
-        public ArchiveDbAssemblyBuilder(bool capitalize = false)
+        public ArchiveDbAssemblyBuilder(bool capitalize = false, 
+            FileReaderConfiguration fileReaderConfig = null,
+            RowFactoryConfiguration rowFactoryConfig = null)
         {
             this.capitalize = capitalize;
+            this.fileReaderConfig = fileReaderConfig;
+            this.rowFactoryConfig = rowFactoryConfig;
         }
 
         public void GenerateArchiveDbAssembly(IFileMetaData coreFileMetaData,
@@ -49,7 +56,7 @@ namespace DwC_A_Driver
         private string GenerateArchiveDb(IFileMetaData coreFileMetaData,
             IEnumerable<IFileMetaData> extensionFileMetaData)
         {
-            var archiveDbCodeDom = new ArchiveDbCodeDom(capitalize);
+            var archiveDbCodeDom = new ArchiveDbCodeDom(capitalize, fileReaderConfig, rowFactoryConfig);
             var archiveDbCs = archiveDbCodeDom.GenerateSource(coreFileMetaData, extensionFileMetaData);
             Log(archiveDbCs);
             return archiveDbCs;
