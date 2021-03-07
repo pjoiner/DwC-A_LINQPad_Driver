@@ -14,9 +14,9 @@ variables:
 
 steps:
   - task: UseDotNet@2
-    displayName: "Use dotnet sdk 3.x"
+    displayName: "Use dotnet sdk 5.x"
     inputs:
-      version: 3.x
+      version: 5.x
       includePreviewVersions: true
 
   - task: DotNetCoreCLI@2
@@ -32,6 +32,12 @@ steps:
       command: "build"
       projects: "${{variables.solution}}"
       arguments: "-c ${{variables.buildConfiguration}}"
+
+  - task: UseDotNet@2
+    displayName: "Use dotnet sdk 3.x"
+    inputs:
+      version: 3.x
+      includePreviewVersions: true
 
   - task: DotNetCoreCLI@2
     displayName: "dotnet test"
