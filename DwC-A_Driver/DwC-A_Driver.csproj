@@ -9,14 +9,14 @@
 		<PackageTags>linqpaddriver</PackageTags>
 		<RootNamespace>DwC_A_Driver</RootNamespace>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
-    <Copyright>Copyright © Paul Joiner 2020</Copyright>
+    <Copyright>Copyright © Paul Joiner 2021</Copyright>
     <Authors>Paul Joiner</Authors>
     <Company />
     <PackageProjectUrl>https://github.com/pjoiner/DwC-A_LINQPad_Driver</PackageProjectUrl>
     <RepositoryUrl>https://github.com/pjoiner/DwC-A_LINQPad_Driver</RepositoryUrl>
-    <AssemblyVersion>2.0.2.0</AssemblyVersion>
-    <FileVersion>2.0.2.0</FileVersion>
-    <Version>2.0.2</Version>
+    <AssemblyVersion>2.0.3.0</AssemblyVersion>
+    <FileVersion>2.0.3.0</FileVersion>
+    <Version>2.0.3</Version>
     <PackageId>DwC-A_LinQPad_Driver</PackageId>
     <Description>Darwin Core Archive Driver for LinQPad</Description>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
@@ -30,7 +30,7 @@
 		<PackageReference Include="LINQPad.Reference" Version="1.1.0" />
 		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.6.0" />
 		<PackageReference Include="NETStandard.Library" Version="2.0.3" />
-    <PackageReference Include="DwC-A_dotnet" Version="0.5.1"/>
+    <PackageReference Include="DwC-A_dotnet" Version="0.5.1" />
 	</ItemGroup>
 
 	<ItemGroup>
