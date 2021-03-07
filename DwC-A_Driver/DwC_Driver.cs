@@ -1,4 +1,5 @@
 ﻿using DwC_A;
+using DwC_A.Config;
 using LINQPad.Extensibility.DataContext;
 using System;
 using System.Collections.Generic;
@@ -30,6 +31,8 @@ namespace DwC_A_Driver
                 var path = (FolderViewModel)folderBrowserDialog.DataContext;
                 cxInfo.DriverData.Add(new XElement("FileName", path.Path));
                 cxInfo.DriverData.Add(new XElement("Capitalize", path.Capitalize));
+                cxInfo.DriverData.Add(new XElement("BufferSize", path.BufferSize));
+                cxInfo.DriverData.Add(new XElement("RowStrategy", path.RowStrategy));
                 return true;
             }
             return false;
@@ -42,6 +45,14 @@ namespace DwC_A_Driver
             {
                 capitalize = false;
             }
+            if (!int.TryParse(cxInfo.DriverData.Element("BufferSize").Value, out int bufferSize))
+            {
+                bufferSize = 65536;
+            }
+            if (!Enum.TryParse(cxInfo.DriverData.Element("RowStrategy").Value, out RowStrategy rowStrategy))
+            {
+                rowStrategy = RowStrategy.Lazy;
+            }
             nameSpace = "DwCArchive";
             typeName = "ArchiveDb";
             var driverFolder = GetDriverFolder();
@@ -51,7 +62,9 @@ namespace DwC_A_Driver
                 var extensionFileMetaData = archive.Extensions
                     .GetFileReaders()
                     .Select(n => n.FileMetaData);
-                var archiveDbSchemaBuilder = new ArchiveDbAssemblyBuilder(capitalize);
+                var archiveDbSchemaBuilder = new ArchiveDbAssemblyBuilder(capitalize, 
+                    new FileReaderConfiguration() { BufferSize = bufferSize },
+                    new RowFactoryConfiguration() { Strategy = rowStrategy });
                 archiveDbSchemaBuilder.GenerateArchiveDbAssembly(coreFileMetaData, 
                     extensionFileMetaData, assemblyToBuild.CodeBase, driverFolder);
                 var linQPadSchemaGenerator = new LINQPadSchemaGenerator(capitalize);

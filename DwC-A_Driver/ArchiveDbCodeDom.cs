@@ -1,18 +1,26 @@
 ﻿using DwC_A;
+using DwC_A.Config;
 using DwC_A.Meta;
 using System;
 using System.CodeDom;
 using System.Collections.Generic;
+using System.Text;
 
 namespace DwC_A_Driver
 {
     class ArchiveDbCodeDom
     {
         private readonly bool capitalize;
+        private readonly FileReaderConfiguration fileReaderConfig;
+        private readonly RowFactoryConfiguration rowFactoryConfig;
 
-        public ArchiveDbCodeDom(bool capitalize = false)
+        public ArchiveDbCodeDom(bool capitalize = false, 
+            FileReaderConfiguration fileReaderConfig = null,
+            RowFactoryConfiguration rowFactoryConfig = null)
         {
             this.capitalize = capitalize;
+            this.fileReaderConfig = fileReaderConfig;
+            this.rowFactoryConfig = rowFactoryConfig;
         }
 
         public string GenerateSource(IFileMetaData coreFileMetaData,
@@ -31,6 +39,9 @@ namespace DwC_A_Driver
             DwCArchive.Imports.Add(new CodeNamespaceImport("System"));
             DwCArchive.Imports.Add(new CodeNamespaceImport("System.Collections.Generic"));
             DwCArchive.Imports.Add(new CodeNamespaceImport("DwC_A"));
+            DwCArchive.Imports.Add(new CodeNamespaceImport("DwC_A.Factories"));
+            DwCArchive.Imports.Add(new CodeNamespaceImport("DwC_A.Config"));
+            DwCArchive.Imports.Add(new CodeNamespaceImport("DwC_A.Terms"));
             DwCArchive.Imports.Add(new CodeNamespaceImport("System.Linq"));
             DwCArchive.Imports.Add(new CodeNamespaceImport("System.Configuration"));
             return DwCArchive;
@@ -50,6 +61,21 @@ namespace DwC_A_Driver
             };
             constructor.Parameters.Add(new CodeParameterDeclarationExpression(typeof(string), "fileName"));
             constructor.Statements.Add(new CodeSnippetExpression("this.archive = new ArchiveReader(fileName)"));
+            var configBuilder = new StringBuilder("var factory = new DefaultFactory(cfg => {\n");
+            if(fileReaderConfig != null)
+            {
+                configBuilder.Append($"cfg.Add<FileReaderConfiguration>(cfg => cfg.BufferSize = {fileReaderConfig.BufferSize});\n");
+            }
+            if(rowFactoryConfig != null)
+            {
+                configBuilder.Append($"cfg.Add<RowFactoryConfiguration>(cfg => cfg.Strategy = RowStrategy.{rowFactoryConfig.Strategy});\n");
+            }
+            configBuilder.Append("});");
+            if(fileReaderConfig != null || rowFactoryConfig != null)
+            {
+                constructor.Statements
+                    .Add(new CodeSnippetExpression(configBuilder.ToString()));
+            }
             classType.Members.Add(constructor);
             var archive = new CodeMemberField()
             {

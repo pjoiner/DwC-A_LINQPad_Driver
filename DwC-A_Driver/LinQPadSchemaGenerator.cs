@@ -7,6 +7,7 @@ namespace DwC_A_Driver
     class LINQPadSchemaGenerator
     {
         private readonly bool capitalize;
+        private IList<string> usedNames = new List<string>();
 
         public LINQPadSchemaGenerator(bool capitalize = false)
         {
@@ -42,11 +43,19 @@ namespace DwC_A_Driver
                 Children = new List<ExplorerItem>(),
                 IsEnumerable = true
             };
+            usedNames.Clear();
             foreach(var field in fileMetaData.Fields)
             {
+                var fieldName = CodeDomUtils.ModifyKeywords(field.Term, capitalize);
+                int i = 1;
+                while (usedNames.Contains(fieldName))
+                {
+                    fieldName += i.ToString();
+                    i++;
+                }
+                usedNames.Add(fieldName);
                 var icon = GetFieldIcon(fileMetaData, field);
-                var fieldItem = new ExplorerItem(CodeDomUtils.ModifyKeywords(field.Term, capitalize),
-                    ExplorerItemKind.Property, icon);
+                var fieldItem = new ExplorerItem(fieldName, ExplorerItemKind.Property, icon);
                 explorerItem.Children.Add(fieldItem);
             }
             return explorerItem;

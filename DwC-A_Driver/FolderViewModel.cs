@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DwC_A.Config;
+using System;
 using System.ComponentModel;
 using System.Windows.Forms;
 using System.Windows.Input;
@@ -11,6 +12,8 @@ namespace DwC_A_Driver
         const string FolderStr = "Folder...";
 
         private FolderParams folderParams = new FolderParams();
+        private FileReaderConfiguration fileReaderConfig = new FileReaderConfiguration();
+        private RowFactoryConfiguration rowFactoryConfig = new RowFactoryConfiguration();
         private string buttonText = "Folder...";
 
         #region INotifyPropertyChanged
@@ -63,6 +66,32 @@ namespace DwC_A_Driver
             {
                 folderParams.Capitalize = value;
                 OnPropertyChanged("Capitalize");
+            }
+        }
+
+        public int BufferSize
+        {
+            get
+            {
+                return fileReaderConfig.BufferSize;
+            }
+            set
+            {
+                fileReaderConfig.BufferSize = value;
+                OnPropertyChanged("BufferSize");
+            }
+        }
+
+        public RowStrategy RowStrategy
+        {
+            get
+            {
+                return rowFactoryConfig.Strategy;
+            }
+            set
+            {
+                rowFactoryConfig.Strategy = value;
+                OnPropertyChanged("RowStrategy");
             }
         }
 
