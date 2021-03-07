@@ -1,12 +1,14 @@
 ﻿using DwC_A;
 using DwC_A.Meta;
 using System.CodeDom;
+using System.Collections.Generic;
 
 namespace DwC_A_Driver
 {
     class ArchiveFileCodeDom
     {
         private readonly bool capitalize;
+        private IList<string> usedNames = new List<string>();
 
         public ArchiveFileCodeDom(bool capitalize = false)
         {
@@ -51,6 +53,7 @@ namespace DwC_A_Driver
                 Name = "row",
             };
             classType.Members.Add(row);
+            usedNames.Clear();
             foreach (var field in fileMetaData.Fields)
             {
                 classType.Members.Add(CreateProperty(field));
@@ -60,13 +63,21 @@ namespace DwC_A_Driver
 
         private CodeMemberProperty CreateProperty(FieldType field)
         {
+            var fieldName = CodeDomUtils.ModifyKeywords(field.Term, capitalize);
+            int i = 1;
+            while(usedNames.Contains(fieldName))
+            {
+                fieldName += i.ToString();
+                i++;
+            }
             var fieldProperty = new CodeMemberProperty()
             {
                 Type = new CodeTypeReference(typeof(string)),
                 Attributes = MemberAttributes.Public | MemberAttributes.Final,
-                Name = CodeDomUtils.ModifyKeywords(field.Term, capitalize),
+                Name = fieldName,
                 HasGet = true
             };
+            usedNames.Add(fieldProperty.Name);
             fieldProperty.GetStatements.Add(new CodeSnippetExpression($"return row[\"{field.Term}\"]"));
             return fieldProperty;
         }
