@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 	
 	<PropertyGroup>
-		<TargetFrameworks>netcoreapp3.1</TargetFrameworks>
+		<TargetFrameworks>netcoreapp3.1;net5.0-windows</TargetFrameworks>
 		<UseWpf>true</UseWpf>
     <UseWindowsForms>true</UseWindowsForms>
 		<AssemblyName>DwC-A_LinQPad_Driver</AssemblyName>
@@ -22,7 +22,7 @@
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
+	<PropertyGroup>
 		<DefineConstants>NETCORE</DefineConstants>
 	</PropertyGroup>
 
@@ -30,6 +30,7 @@
 		<PackageReference Include="LINQPad.Reference" Version="1.1.0" />
 		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.6.0" />
 		<PackageReference Include="NETStandard.Library" Version="2.0.3" />
+    <PackageReference Include="DwC-A_dotnet" Version="0.5.1"/>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -38,13 +39,7 @@
 		</None>
 	</ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
-    <PackageReference Include="DwC-A_dotnet">
-      <Version>0.5.0</Version>
-    </PackageReference>
-  </ItemGroup>
-
-  <Target Name="PostBuild1" AfterTargets="PostBuildEvent" Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
+  <Target Name="PostBuild1" AfterTargets="PostBuildEvent">
 		<Exec Command="xcopy /i/y/s &quot;$(TargetDir)*.*&quot; &quot;%25LocalAppData%25\\LINQPad\\Drivers\\DataContext\\NetCore\\$(TargetName)&quot;" />
   </Target>
 
