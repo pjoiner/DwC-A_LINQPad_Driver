@@ -64,6 +64,7 @@ namespace DwC_A_Driver
 
         private void RoslynCompile(string[] sources, string assemblyName, string driverFolder)
         {
+            //TODO: What if I pass null for IConnectInfo?
             var referencedAssemblies = DataContextDriver.GetCoreFxReferenceAssemblies().Concat(new[]
             {
                 typeof(ArchiveReader).Assembly.Location,
