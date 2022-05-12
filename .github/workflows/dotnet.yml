@@ -34,4 +34,4 @@ jobs:
       uses: actions/upload-artifact@v3.0.0
       with:
         name: DwC-A_LINQPad_Driver.nupkg
-        path: DwC-A_LINQPad_Driver\DwC-A_Driver\bin\Release\DwC-A_LinQPad_Driver.*.nupkg
+        path: \**\Release\DwC-A_LinQPad_Driver.*.nupkg
