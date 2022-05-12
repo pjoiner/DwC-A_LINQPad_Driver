@@ -1,5 +1,8 @@
 name: .NET
 
+env:
+  buildConfiguration: "Release"
+  driverBaseName: "DwC-A_LinQPad_Driver"
 
 on:
   push:
@@ -24,7 +27,7 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build --no-restore -c env.buildConfiguration
     - name: Test
       run: dotnet test --no-build --verbosity normal
     - name: Upload a Build Artifact
