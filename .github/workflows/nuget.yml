@@ -24,6 +24,8 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
+      - name: Build
+        run: dotnet build -c Release DwC-A_Driver/DwC-A_Driver.csproj
       - name: Package
         run: dotnet pack -c Release -o . DwC-A_Driver/DwC-A_Driver.csproj
       - name: Publish
