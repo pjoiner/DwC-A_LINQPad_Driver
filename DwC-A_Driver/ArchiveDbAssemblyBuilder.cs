@@ -64,7 +64,7 @@ namespace DwC_A_Driver
 
         private void RoslynCompile(string[] sources, string assemblyName, string driverFolder)
         {
-            var referencedAssemblies = DataContextDriver.GetCoreFxReferenceAssemblies().Concat(new[]
+            var referencedAssemblies = DataContextDriver.GetCoreFxReferenceAssemblies(null).Concat(new[]
             {
                 typeof(ArchiveReader).Assembly.Location,
             }).ToArray();

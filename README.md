@@ -1,4 +1,4 @@
-# Readme [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)[![Build Status](https://dev.azure.com/pjoiner/DwC-A_Driver/_apis/build/status/pjoiner.DwC-A_LINQPad_Driver)](https://dev.azure.com/pjoiner/DwC-A_Driver/_build/latest?definitionId=8)
+# Readme [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)![Build](https://github.com/pjoiner/DwC-A_LINQPad_Driver/actions/workflows/dotnet.yml/badge.svg)
 
 DwC-A_LINQPad_Driver is a dynamic data context LINQPad Driver for Darwin Core Archive Files.
 

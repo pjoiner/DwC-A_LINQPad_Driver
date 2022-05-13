@@ -63,7 +63,7 @@ namespace DwC_A_Driver
 
         private ExplorerIcon GetFieldIcon(IFileMetaData fileMetaData, FieldType field)
         {
-            if (fileMetaData.Id.IndexSpecified && fileMetaData.Id.Index == field.Index)
+            if (field.IndexSpecified && fileMetaData.Id.Index == field.Index)
             {
                 return ExplorerIcon.Key;
             }
